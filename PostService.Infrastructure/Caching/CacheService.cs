@@ -25,8 +25,6 @@ public class CacheService<T> : ICacheService<T>
         {
             _semaphore.Wait();
 
-            await Task.Delay(15000);
-
             var value = await _db.HashGetAllAsync(key);
             if (value.Length > 0)
             {

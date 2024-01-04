@@ -7,6 +7,6 @@ public interface IPostRepository
     Task<Post?> AddPostAsync(Post post);
     Task<Post?> EditPostAsync(Post post);
     Task<bool> DeletePostAsync(string id);
-    Post? GetPostById(string id);
+    ValueTask<Post?> GetPostById(string id);
     IList<Post> GetAll();
 }

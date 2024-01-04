@@ -57,7 +57,7 @@ public class PostService(
         return false;
     }
 
-    public Post? GetPostById(string id)
+    public async Task<Post?> GetPostByIdAsync(string id)
     {
         var cache = cacheService.GetData(id);
 
@@ -66,11 +66,10 @@ public class PostService(
             return cache;
         }
 
-        var res = postRepository.GetPostById(id);
+        var res = await postRepository.GetPostById(id);
 
         if (res is not null)
         {
-            // var expirationTime = DateTimeOffset.Now.AddMinutes(60);
             cacheService.SetPost(res);
 
             return res;

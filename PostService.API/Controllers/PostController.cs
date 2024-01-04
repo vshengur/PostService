@@ -29,9 +29,9 @@ public class PostController(IMapper mapper, IPostService postServices) : Control
     }
 
     [HttpGet("details")]
-    public IActionResult GetById(string id)
+    public async Task<IActionResult> GetById(string id)
     {
-        var post = _postServices.GetPostById(id);
+        var post = await _postServices.GetPostByIdAsync(id);
 
         if (post is not null)
         {

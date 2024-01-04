@@ -32,7 +32,7 @@ public class PostRepository(AppDbContext dbContext) : IPostRepository
 
     public async Task<Post?> EditPostAsync(Post post)
     {
-        var postRes = _dbContext.Posts.FirstOrDefault(p => p.Id == post.Id);
+        var postRes = await _dbContext.Posts.FindAsync(post.Id);
         if (postRes is not null)
         {
             postRes.Title = post.Title;
@@ -49,6 +49,6 @@ public class PostRepository(AppDbContext dbContext) : IPostRepository
         return _dbContext.Posts.ToList();
     }
 
-    public Post? GetPostById(string id) 
-        => _dbContext.Posts.FirstOrDefault(p => p.Id == id);
+    public ValueTask<Post?> GetPostById(string id) 
+        => _dbContext.Posts.FindAsync(id);
 }
