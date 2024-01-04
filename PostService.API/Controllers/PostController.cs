@@ -15,6 +15,8 @@ public class PostController(IMapper mapper, IPostService postServices) : Control
     private readonly IPostService _postServices = postServices;
 
     [HttpGet]
+    [ProducesResponseType(typeof(IList<ResponsePostDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> GetAllAsync()
     {
         var posts = await _postServices.GetAllAsync();
@@ -29,6 +31,8 @@ public class PostController(IMapper mapper, IPostService postServices) : Control
     }
 
     [HttpGet("details")]
+    [ProducesResponseType(typeof(ResponsePostDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(string id)
     {
         var post = await _postServices.GetPostByIdAsync(id);
@@ -43,6 +47,8 @@ public class PostController(IMapper mapper, IPostService postServices) : Control
     }
 
     [HttpPost]
+    [ProducesResponseType(typeof(ResponsePostDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Post([FromBody] CreatePostDto createPostDto)
     {
         var mapInput = _mapper.Map<Post>(createPostDto);
@@ -58,6 +64,8 @@ public class PostController(IMapper mapper, IPostService postServices) : Control
     }
 
     [HttpPut]
+    [ProducesResponseType(typeof(ResponsePostDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Put([FromBody] UpdatePostDto updatePostDto)
     {
         var mapInput = _mapper.Map<Post>(updatePostDto);
@@ -73,6 +81,8 @@ public class PostController(IMapper mapper, IPostService postServices) : Control
     }
 
     [HttpDelete]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Delete(string id)
     {
         var res = await _postServices.DeletePostAsync(id);
